@@ -37,6 +37,11 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: playwright-${{ runner.os }}-
       - run: npx playwright install chromium
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v7
